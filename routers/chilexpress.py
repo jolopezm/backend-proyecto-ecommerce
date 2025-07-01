@@ -8,7 +8,7 @@ import datetime
 
 chilexpress_service: ChilexpressApiService = None
 
-def router(chilexpress_config: Dict, db: firestore.Client): # Add db as a parameter
+def router(chilexpress_config: Dict, db: firestore.Client): 
     global chilexpress_service
     if chilexpress_service is None:
         chilexpress_service = ChilexpressApiService(chilexpress_config)
@@ -61,7 +61,7 @@ def router(chilexpress_config: Dict, db: firestore.Client): # Add db as a parame
     async def process_order_and_shipping_endpoint(
         payload: FinalizeOrderPayload,
         transbank_response: Dict[str, Any],
-        db: firestore.Client = Depends(lambda: db) # Inject db dependency
+        db: firestore.Client = Depends(lambda: db) 
     ):
         try:
             shipping_address = payload.shipping_info.address
@@ -70,7 +70,6 @@ def router(chilexpress_config: Dict, db: firestore.Client): # Add db as a parame
             buy_order_id = transbank_response['buy_order']
             total_value = sum(item.price * item.quantity for item in payload.items)
 
-            # --- RECONSTRUCCIÓN DEL SHIPMENT BODY PARA CHILExpress (Basado en ejemplo funcional) ---
             shipment_body = {
                 "header": {
                     "customerCardNumber": "18578680",
@@ -146,14 +145,11 @@ def router(chilexpress_config: Dict, db: firestore.Client): # Add db as a parame
                     transport_order_number = first_detail.get("transportOrderNumber")
                     reference_number = first_detail.get("reference")
                 
-                # Ensure data and detail exist for saving, even if empty
                 if "data" not in chilexpress_response:
                     chilexpress_response["data"] = {}
                 if "detail" not in chilexpress_response["data"]:
                     chilexpress_response["data"]["detail"] = [{}]
 
-                # Explicitly set transportOrderNumber and reference in the saved chilexpressResponse
-                # This ensures they are always present in the stored object, even if initially None
                 if chilexpress_response["data"]["detail"] and len(chilexpress_response["data"]["detail"]) > 0:
                     chilexpress_response["data"]["detail"][0]["transportOrderNumber"] = transport_order_number
                     chilexpress_response["data"]["detail"][0]["reference"] = reference_number

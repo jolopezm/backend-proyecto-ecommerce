@@ -58,7 +58,6 @@ COBERTURAS_KEY_PATH = os.getenv("CHILEXPRESS_COBERTURAS_API_KEY_PATH", "../../mi
 COTIZACIONES_KEY_PATH = os.getenv("CHILEXPRESS_COTIZACIONES_API_KEY_PATH", "../../mi-app-carrito/config/chilexpress_cotizaciones_api_key.json")
 ENVIOS_KEY_PATH = os.getenv("CHILEXPRESS_ENVIOS_API_KEY_PATH", "../../mi-app-carrito/config/chilexpress_envios_api_key.json")
 
-# Ahora, carga las CLAVES API reales utilizando la función auxiliar _load_api_key_from_json_file
 CHILEXPRESS_COBERTURAS_API_KEY = _load_api_key_from_json_file(COBERTURAS_KEY_PATH)
 CHILEXPRESS_COTIZACIONES_API_KEY = _load_api_key_from_json_file(COTIZACIONES_KEY_PATH)
 CHILEXPRESS_ENVIOS_API_KEY = _load_api_key_from_json_file(ENVIOS_KEY_PATH)

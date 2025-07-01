@@ -1,7 +1,8 @@
 import httpx
 from fastapi import HTTPException
 import json
-from urllib.parse import urljoin # Seguiremos usándolo donde sea útil, como en track_shipping
+from urllib.parse import urljoin 
+
 
 class ChilexpressApiService:
     def __init__(self, config: dict):
@@ -88,10 +89,8 @@ class ChilexpressApiService:
                 detail=f"Error interno del servidor al procesar la solicitud: {str(e)}"
             )
 
-    # --- Métodos de la API de Chilexpress ---
 
     async def get_regions(self):
-        # Volvemos a la concatenación directa que funcionaba antes para estas APIs
         full_url = f"{self.coberturas_base_url}/regions"
         return await self._make_request("GET", full_url, self.headers_coberturas)
 
@@ -127,12 +126,7 @@ class ChilexpressApiService:
         return await self._make_request("POST", full_url, self.headers_envios, json_data=shipping_body)
     
     async def track_shipping(self, tracking_body: dict):
-        # Usamos el RUT fijo por defecto
         tracking_body['rut'] = 96756430 
-
-        # ¡Esta es la única API donde necesitamos urljoin para concatenar la base y el endpoint!
-        # self.envios_base_url: 'http://testservices.wschilexpress.com/transport-orders/api/v1'
-        # Endpoint de tracking: 'tracking' (no es un subdirectorio directo de 'api/v1')
         full_url = urljoin(self.envios_base_url + '/', "tracking") 
 
         return await self._make_request("POST", full_url, self.headers_envios, json_data=tracking_body)

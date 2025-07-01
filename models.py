@@ -36,6 +36,7 @@ class Usuario(Base):
     nombre = Column(String, index=True)
     email = Column(String, unique=True)
     hashed_password = Column(String)
+    role = Column(String, default="customer")
     ordenes = relationship('OrdenCompra', back_populates='usuario')
 
     def as_dict(self):

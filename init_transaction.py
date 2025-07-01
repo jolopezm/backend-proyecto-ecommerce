@@ -72,7 +72,6 @@ async def commit_tbk_transaction(token: str):
         if response_code != 0:
             return {"response_code": response_code, "status": status, "message": "Pago rechazado."}
         else:
-            # Return the full Transbank response for the frontend to use
             if is_dict:
                 return tbk_response
             else:
